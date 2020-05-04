@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ 'SETTINGS' | translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button href="tel:{{support}}" fill="clear">{{'HELP' | translate}}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="none">
+    <ion-item>
+      <ion-label>
+        <ion-text>
+          <h3>Background Mode</h3>
+        </ion-text>
+        <ion-text>
+          <p>Enable Tracking Even after minimizing the app</p>
+        </ion-text>
+      </ion-label>
+      <ion-toggle slot="end" [(ngModel)]="settings.bgmode"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-text>
+          <h3>Always on</h3>
+        </ion-text>
+        <ion-text>
+          <p>Driver will goes online after completing the each trip</p>
+        </ion-text>
+      </ion-label>
+      <ion-toggle slot="end" [(ngModel)]="settings.alwaysOn"></ion-toggle>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button color="dark" expand="block" (click)="save()">{{'SAVE' | translate}}</ion-button>
+  </ion-toolbar>
+</ion-footer>

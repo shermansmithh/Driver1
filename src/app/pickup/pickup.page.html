@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{'RIDE_INFORMATION' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item *ngIf="passenger.phoneNumber">
+          <ion-label>
+            <ion-text>
+              <h2>{{(passenger)?.name }}</h2>
+            </ion-text>
+            <ion-text>
+              <p>{{(passenger)?.phoneNumber }}</p>
+            </ion-text>
+          </ion-label>
+          <ion-button slot="end" href="tel:{{passenger.phoneNumber}}">
+            <ion-icon name="call"></ion-icon>&nbsp; {{'CALL' | translate}}
+          </ion-button>
+
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <ion-text>
+              <h2>{{'FROM' | translate}}</h2>
+            </ion-text>
+            <ion-text>
+              <p *ngIf="trip.origin != undefined">{{ trip.origin.vicinity }}</p>
+            </ion-text>
+          </ion-label>
+          <ion-button slot="end" fill="clear" color="dark"
+            (click)="getDirection(trip.origin.location.lat,trip.origin.location.lng)">
+            <ion-icon name="navigate"></ion-icon>&nbsp; {{'NAVIGATE' | translate}}
+          </ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <ion-text>
+              <h2>{{'TO' | translate}}</h2>
+            </ion-text>
+            <ion-text>
+              <p *ngIf="trip.destination != undefined">{{ trip.destination.vicinity }}</p>
+            </ion-text>
+          </ion-label>
+          <ion-button slot="end" fill="clear" color="dark"
+            (click)="getDirection(trip.destination.location.lat,trip.destination.location.lng)">
+            <ion-icon name="navigate"></ion-icon>&nbsp; {{'NAVIGATE' | translate}}
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-badge>{{ trip.payment_method }}</ion-badge>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" color="dark" [hidden]="isTripStarted" (click)="pickup()">{{'PICKUP' | translate}}
+    </ion-button>
+    <ion-button expand="block" color="danger" [hidden]="!isTripStarted" (click)="showPayment()">
+      {{'COMPLETE_RIDE' | translate}}</ion-button>
+  </ion-toolbar>
+</ion-footer>

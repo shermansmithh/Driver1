@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{'WALLET' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="wallet">
+  <div class="widhdraw-header">
+    <h2 style="font-size: 4rem;">{{currency}} {{ (driver)?.balance }}</h2>
+    <ion-button color="light" (click)="withdraw()">{{'WITHDRAW' | translate}}</ion-button>
+  </div>
+  <ion-list>
+    <ion-item-divider>
+      {{'HISTORY' | translate}}
+    </ion-item-divider>
+    <ion-item *ngFor="let record of records">
+      <ion-label>
+        <ion-text color="medium">
+          <p>{{ record.createdAt | amDateFormat: 'YYYY-MM-DD HH:mm'}}</p>
+        </ion-text>
+        <ion-text>
+          <p>You've request of <strong>{{currency}} {{ record.amount }}</strong>
+            is <code>{{ record.status}}</code>
+          </p>
+          <p>Ref: {{record.createdAt }} / key: {{record.$key}} / Type: {{ record.type }} </p>
+        </ion-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

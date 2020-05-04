@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ user.name }}</ion-title>
+    <ion-buttons slot="end">
+
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-segment [(ngModel)]="tabs">
+    <ion-segment-button value="profile">
+      {{'BASIC_PROFILE' | translate}}
+    </ion-segment-button>
+    <ion-segment-button value="carinfo">
+      {{'CAR_INFO' | translate }}
+    </ion-segment-button>
+    <ion-segment-button value="uploaddocs">
+      {{'UPLOAD_DOCS' | translate}}
+    </ion-segment-button>
+  </ion-segment>
+  <div [ngSwitch]="tabs" class="ion-padding">
+    <div *ngSwitchCase="'profile'">
+      <div style="text-align: center;">
+        <img src="{{ user.photoURL }}" style="width:50px;height:50px;border-radius:100px" (click)="chooseFile()">
+        <form ngNoForm>
+          <input id="avatar" name="file" type="file" (change)="upload()">
+        </form>
+      </div>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label position="stacked">{{'FULLNAME' | translate}}</ion-label>
+          <ion-input type="text" [(ngModel)]="user.name" placeholder="{{'FULLNAME' | translate}}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">{{'EMAIL_ADDRESS' | translate}}</ion-label>
+          <ion-input type="email" [(ngModel)]="user.email" disabled placeholder="{{'EMAIL_ADDRESS' | translate}}">
+          </ion-input>
+          <ion-button ion-button item-right clear *ngIf="!user.isEmailVerified" (click)="verifyEmail()">
+            {{'VERIFY' | translate}}</ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">{{'PHONE_NUMBER' | translate}}</ion-label>
+          <ion-input type="tel" [(ngModel)]="user.phoneNumber" [disabled]="user.isPhoneVerified"
+            placeholder="{{'PHONE_NUMBER' | translate}}"></ion-input>
+
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">{{'BANK_DETAILS' | translate}}</ion-label>
+          <ion-textarea [(ngModel)]="user.bankinfo"></ion-textarea>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'carinfo'">
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label position="stacked">{{'CAR_BRAND' | translate}}</ion-label>
+          <ion-input type="text" [(ngModel)]="user.brand" placeholder="{{'CAR_BRAND' | translate}}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">{{'CAR_MODEL' | translate}}</ion-label>
+          <ion-input type="text" [(ngModel)]="user.model" placeholder="{{'CAR_MODEL' | translate}}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">{{'PLATE_NUMBER' | translate}}</ion-label>
+          <ion-input type="text" [(ngModel)]="user.plate" placeholder="{{'PLATE_NUMBER' | translate}}"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="types">
+          <ion-label position="stacked">{{'CAR_TYPE' | translate}}</ion-label>
+          <ion-select [(ngModel)]="user.type">
+            <ion-select-option value="{{ car.type }}" *ngFor="let car of types">
+              {{ car.name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'uploaddocs'">
+      <p *ngIf="user.docsURL">Your Uploaded File:
+        <a href="{{user.docsURL}}" target="_blank">{{'DOWNLOAD' | translate}} PDF</a>
+      </p>
+
+      <p>please create & upload following docs with single pdf</p>
+      <ul>
+        <li>Licence</li>
+        <li>Car Images</li>
+        <li>Car Insurance</li>
+      </ul>
+
+      <ion-button expand="block" fill="outline" (click)="chooseDocs()">{{'UPLOAD' | translate}} PDF</ion-button>
+      <div>
+        <form ngNoForm>
+          <input id="docsPDF" name="file" type="file" (change)="uploadDocs()">
+        </form>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<ion-footer class="ion-padding">
+  <ion-button expand="block" (click)="save()">{{'SAVE' | translate}}</ion-button>
+</ion-footer>

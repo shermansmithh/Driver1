@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{'HISTORY' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row style="background: #f1f1f1">
+    <ion-col size="4">
+      <h3>{{ stats.today }}</h3>
+      <p>Today</p>
+    </ion-col>
+    <ion-col size="4">
+      <h3>{{ stats.yesterday }}</h3>
+      <p>Yesterday</p>
+    </ion-col>
+    <ion-col size="4">
+      <h3>{{ stats.thisMonth }}</h3>
+      <p>This Month</p>
+    </ion-col>
+    <ion-col size="4">
+      <h3>{{ stats.lastMonth }}</h3>
+      <p>Last Month</p>
+    </ion-col>
+    <ion-col size="4">
+      <h3>{{ stats.thisYear }}</h3>
+      <p>This Year</p>
+    </ion-col>
+    <ion-col size="4">
+      <h3>{{ stats.lastYear }}</h3>
+      <p>Last Year</p>
+    </ion-col>
+  </ion-row>
+  <p *ngIf="trips.length == 0" style="margin-top: 5px; text-align: center">No Trips Found</p>
+  <ion-list>
+    <ion-item *ngFor="let trip of trips">
+      <ion-label>
+        <ion-text>
+          <p>ID: {{ trip.createdAt }} - {{trip.status}}</p>
+        </ion-text>
+        <ion-text>
+          <h3><span style="color:#4CAF50">•</span> {{ trip.origin.vicinity }}</h3>
+          <p>{{ trip.pickedUpAt | date: 'medium'}}</p>
+        </ion-text>
+        <ion-text>
+          <h3><span style="color:#F44336">•</span> {{ trip.destination.vicinity }}</h3>
+          <p>{{ trip.droppedOffAt | date: 'medium'}}</p>
+        </ion-text>
+        <ion-text>
+          <ion-row>
+            <ion-col>
+              <p>{{'FEE' | translate}}: {{trip.currency}} {{trip.fee}}</p>
+            </ion-col>
+            <ion-col *ngIf="trip.discount != 0">
+              <p>Discount: {{trip.discount}} ({{trip.promocode}})</p>
+            </ion-col>
+            <ion-col>
+              <p>Payment Mode: {{ trip.paymentMethod }}</p>
+            </ion-col>
+          </ion-row>
+        </ion-text>
+      </ion-label>
+      <ion-badge slot="end">
+        {{trip.currency}} {{ (trip.fee - (trip.fee * trip.discount / 100)).toFixed(2) }}
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+</ion-content>
