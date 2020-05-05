@@ -28,6 +28,7 @@ export class DriverService {
 
   // update driver's position
   updatePosition(vehicleId, vehicleType, locality, lat, lng, rating, name) {
+    console.log("in update function")
     let path = 'localities/' + locality + '/' + vehicleType + '/' + vehicleId;
     this.db.object(path).valueChanges().pipe(take(1)).subscribe((snapshot: any) => {
       console.log(snapshot);

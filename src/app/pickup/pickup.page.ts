@@ -56,6 +56,19 @@ export class PickupPage implements OnInit {
     })
   }
 
+
+  cancelTrip(){
+    let getTrips = this.tripService.getTripStatus(this.trip.key).valueChanges().subscribe((trip: any) => {
+      console.log(trip);
+    
+        getTrips.unsubscribe();
+        this.tripService.cancel(this.trip.key);
+        this.dealService.removeDeal(this.trip.driverId);
+        this.common.showAlert("Trip Cancelled");
+        this.router.navigateByUrl('/home');
+      
+    })
+  }
   // pickup
   pickup() {
     this.alertCtrl.create({

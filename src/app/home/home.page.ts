@@ -66,13 +66,15 @@ export class HomePage {
 
   changeAvailability() {
     clearInterval(this.positionTracking);
+    var vm = this
     console.log(this.isDriverAvailable);
     if (this.isDriverAvailable == true) {
       // get current location
+
       this.geolocation.getCurrentPosition().then((resp) => {
         let latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
         let geocoder = new google.maps.Geocoder();
-
+        console.log(resp.coords.latitude)
         this.loadMap(resp.coords.latitude, resp.coords.longitude);
         // find address from lat lng
         geocoder.geocode({ 'latLng': latLng }, (results, status) => {
@@ -81,17 +83,22 @@ export class HomePage {
             let locality = this.placeService.setLocalityFromGeocoder(results);
             console.log('locality', locality);
 
+
             // start tracking
-            this.positionTracking = setInterval(() => {
+            vm.positionTracking = setInterval(() => {
+
+              console.log("START POSITION TRACKING")
               // check for driver object, if it did not complete profile, stop updating location
               if (!this.driver || !this.driver.type) {
                 return;
               }
 
               // Periodic update after particular time intrvel
-              this.geolocation.getCurrentPosition().then((resp) => {
+              vm.geolocation.getCurrentPosition().then((resp) => {
                 console.log(resp);
-                this.driverService.updatePosition(this.driver.uid, this.driver.type, locality, resp.coords.latitude, resp.coords.longitude, this.driver.rating, this.driver.name);
+                console.log(this.driver)
+                vm.driverService.updatePosition(this.driver.uid, this.driver.type, locality, resp.coords.latitude, resp.coords.longitude, this.driver.rating, this.driver.name);
+                console.log("after driverService")
               }, err => {
                 console.log(err);
               });
