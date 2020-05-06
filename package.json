@@ -33,7 +33,7 @@
     "angular2-moment": "^1.9.0",
     "cordova-android": "^8.0.0",
     "cordova-ios": "^5.0.1",
-    "cordova-plugin-background-mode": "",
+    "cordova-plugin-background-mode": "0.7.3",
     "cordova-plugin-device": "^2.0.3",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-sqlite-storage": "^3.3.0",
