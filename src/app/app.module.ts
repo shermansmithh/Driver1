@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment.prod';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -43,6 +44,7 @@ export function createTranslateLoader(http: HttpClient) {
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     HttpClientModule,
+    AngularFirestoreModule,
     IonicStorageModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
