@@ -90,6 +90,7 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
+apply from: "../cordova-plugin-firebasex/iontaxidriver-build.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras1 = file('build-extras.gradle').exists()
@@ -166,7 +167,7 @@ android {
     defaultConfig {
         versionCode cdvVersionCode ?: new BigInteger("" + privateHelpers.extractIntFromManifest("versionCode"))
         applicationId privateHelpers.extractStringFromManifest("package")
-
+        multiDexEnabled true
         if (cdvMinSdkVersion != null) {
             minSdkVersion cdvMinSdkVersion
         }
@@ -266,7 +267,17 @@ dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
-    implementation "com.android.support:support-annotations:27.+"
+    implementation "androidx.annotation:annotation:1.0.0"
+    implementation "com.google.android.gms:play-services-auth:18.0.0"
+    implementation "com.google.firebase:firebase-analytics:17.4.0"
+    implementation "com.google.firebase:firebase-messaging:20.1.6"
+    implementation "com.google.firebase:firebase-config:19.1.4"
+    implementation "com.google.firebase:firebase-perf:19.0.7"
+    implementation "com.google.firebase:firebase-auth:19.3.1"
+    implementation "com.google.firebase:firebase-firestore:21.4.3"
+    implementation "com.crashlytics.sdk.android:crashlytics:2.10.1"
+    implementation "com.crashlytics.sdk.android:crashlytics-ndk:2.1.1"
+    implementation "com.google.code.gson:gson:2.8.6"
     // SUB-PROJECT DEPENDENCIES END
 }
 

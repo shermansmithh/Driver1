@@ -4,13 +4,15 @@ import { AuthService } from '../services/auth.service';
 
 import { Router } from '@angular/router';
 import { DriverService } from '../services/driver.service';
-import { AlertController, MenuController } from '@ionic/angular';
+import { AlertController, MenuController,ToastController } from '@ionic/angular';
 import { DealService } from '../services/deal.service';
 import { PlaceService } from '../services/place.service';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Storage } from '@ionic/storage';
+import { FcmproviderService } from '../fcmprovider.service';
+import { Platform } from '@ionic/angular';
 
 declare var google: any;
 
@@ -41,9 +43,14 @@ export class HomePage {
     private translate: TranslateService,
     private router: Router,
     private storage: Storage,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    public fcm: FcmproviderService,
+    public plt: Platform,
+    private toastCtrl: ToastController,
   ) {
 
+
+    this.getFCMandListenNotifications()
   }
 
 
@@ -63,6 +70,36 @@ export class HomePage {
       position: latLng
     });
   }
+
+  
+  async getFCMandListenNotifications() {
+    var vm = this
+    var message
+    // Get a FCM token
+    this.fcm.subribeUIDtoTopic(vm.driver.uid)
+    this.fcm.getToken()
+    this.fcm.listenToNotifications().subscribe(msg => {
+        if (vm.plt.is('android')) {
+            message = <any>msg['body']
+        } else {
+            message = <any>msg['notification'].body
+        }
+
+        vm.presentToast(message)
+    }
+
+    );
+}
+
+async presentToast(msg) {
+  console.log(msg)
+  const toast = await this.toastCtrl.create({
+    message: msg,
+    duration: 2000
+  });
+  toast.present();
+}
+
 
   changeAvailability() {
     clearInterval(this.positionTracking);

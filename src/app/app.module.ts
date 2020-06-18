@@ -22,7 +22,8 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
-
+import { FirebaseX } from '@ionic-native/firebase-x/ngx';
+import { FcmproviderService } from './fcmprovider.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/lang/', '.json');
@@ -57,7 +58,9 @@ export function createTranslateLoader(http: HttpClient) {
     SplashScreen,
     Geolocation,
     BackgroundMode,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    FirebaseX,
+    FcmproviderService
   ],
   bootstrap: [AppComponent]
 })
