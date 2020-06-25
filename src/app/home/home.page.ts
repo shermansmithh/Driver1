@@ -13,6 +13,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Storage } from '@ionic/storage';
 import { FcmproviderService } from '../fcmprovider.service';
 import { Platform } from '@ionic/angular';
+import * as firebase from 'firebase';
 
 declare var google: any;
 
@@ -73,22 +74,24 @@ export class HomePage {
 
   
   async getFCMandListenNotifications() {
+    this.driverService.getDriver().valueChanges().subscribe((snapshot: any) => {
+      if (snapshot != null) {
+   
+        this.driver = snapshot;
+      }
+    });
+
+    console.log("LISTEN")
     var vm = this
     var message
     // Get a FCM token
-    this.fcm.subribeUIDtoTopic(vm.driver.uid)
-    this.fcm.getToken()
-    this.fcm.listenToNotifications().subscribe(msg => {
-        if (vm.plt.is('android')) {
-            message = <any>msg['body']
-        } else {
-            message = <any>msg['notification'].body
-        }
-
-        vm.presentToast(message)
+    if (this.fcm) {
+      console.log("FCM SET"+firebase.auth().currentUser.uid)
+      this.fcm.subribeUIDtoTopic(firebase.auth().currentUser.uid)
     }
 
-    );
+
+ 
 }
 
 async presentToast(msg) {
